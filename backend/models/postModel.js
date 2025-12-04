@@ -12,11 +12,10 @@ const postSchema=new mongoose.Schema({
     department:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"department",
-        default:null,
+        default:null, //null is a general post
     }
 },{
     timestamps:true,
 })
 
-const postModel=mongoose.models.post || mongoose.Model("post",postSchema);
-export default postModel;
+export default  mongoose.model("Post",postSchema);

@@ -1,9 +1,16 @@
 import express from 'express';
 import cors from 'cors'; 
 import { connectDB } from './config/db.js';
-//import postRouter from './routes/postRoute.js';
+import postRouter from './routes/postRoute.js';
 import userRoute from './routes/userRoute.js';
 import 'dotenv/config'
+import createDepartments from './utils/seedDepartments.js';
+import notFound from './middleware/notFound.js';
+import errorHandler from './middleware/Error.js';
+import cookieParser from "cookie-parser";
+import DepartmentRouter from './routes/departmentRoute.js';
+
+
 const app = express();
 const PORT = 5000;
 
@@ -12,16 +19,29 @@ const PORT = 5000;
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
 //DB connection
-connectDB();
+try {
+    connectDB();
+
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+  }
+  
+    //create departments
+createDepartments();
 //API endpoint
 
-//app.use("/api/Posts",postRouter)
+app.use("/api/posts",postRouter);
 app.use("/api/users",userRoute);
-
+app.use("/api/departments",DepartmentRouter);
 app.get("/", (req, res) => {
     res.send("API working")
 })
+
+//middleware
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT,()=>{
     console.log(`server started on port ${PORT}`)
