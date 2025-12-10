@@ -1,18 +1,14 @@
-import { useState } from 'react'
-import './App.css'
-
-
+import { Routes, Route } from "react-router-dom";
+import DevelopmentPosts from "./pages/DevelopmentPosts.jsx";
+import GeneralPosts from "./pages/GeneralPosts.jsx";
 
 function App() {
-  
-
   return (
-      <div>
-      <h1>My First React Project</h1>
-      <p>Welcome! I’m building my app now.</p>
-    </div>
-      
-  )
+    <Routes>
+      <Route path="/development" element={<DevelopmentPosts />} />
+      <Route path="/general" element={<GeneralPosts />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
