@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 
@@ -12,10 +12,7 @@ import PostDetails from "./pages/PostDetails.jsx";
 function App() {
   return (
     <Routes>
-      {/* optional: default route */}
-      <Route path="/" element={<Navigate to="/posts" replace />} />
-
-     
+      {/* EVERYTHING INSIDE DashboardLayout (so Outlet context works) */}
       <Route element={<DashboardLayout />}>
         <Route path="/posts" element={<AllPosts />} />
         <Route path="/departments" element={<AllDepartments />} />

@@ -28,16 +28,10 @@ export default function DashboardLayout() {
           paddingRight: "20px",
         }}
       >
-      
         <Topbar role={role} setRole={setRole} />
 
-        <div
-          style={{
-            marginTop: "25px",
-            width: "100%",
-          }}
-        >
-          
+        <div style={{ marginTop: "25px", width: "100%" }}>
+          {/* pages render here + they receive {role} */}
           <Outlet context={{ role }} />
         </div>
       </div>
