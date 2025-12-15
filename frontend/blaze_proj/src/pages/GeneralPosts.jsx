@@ -1,9 +1,8 @@
-import DashboardLayout from "../layouts/DashboardLayout";
 import PostCard from "../components/PostCard";
 
 export default function GeneralPosts() {
   return (
-    <DashboardLayout>
+    <>
       <h1 style={{ color: "white", marginBottom: "20px" }}>
         General Posts
       </h1>
@@ -15,6 +14,6 @@ export default function GeneralPosts() {
         <PostCard />
         <PostCard />
       </div>
-    </DashboardLayout>
+    </>
   );
 }

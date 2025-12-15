@@ -1,15 +1,54 @@
-import {
-  FiHeart,
-  FiMessageCircle,
-  FiEye,
-  FiMoreHorizontal,
-  FiTrash2,
-  FiEdit2
-} from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { FiTrash2 } from "react-icons/fi";
 
-export default function PostCard({ hasImages = true }) {
+const TAG_COLORS = {
+  DEV: { text: "#B0DCFF", border: "rgba(148,163,184,0.4)" },
+  DES: { text: "#D6C3FF", border: "rgba(200,180,255,0.4)" },
+  AI: { text: "#C3FFDD", border: "rgba(180,255,220,0.4)" },
+  RH: { text: "#FFE4A3", border: "rgba(255,228,163,0.4)" },
+  DEFAULT: { text: "#FFFFFF", border: "rgba(255,255,255,0.3)" },
+};
+
+export default function PostCard({
+  tag = "Dev",
+  dep = null,
+  id = 1,
+  hasImages = true,
+  role = "user",
+  onDelete,
+  onEdit,
+}) {
+  const navigate = useNavigate();
+  const isPresident = role === "president";
+
+  const goToPost = () => {
+    if (dep) navigate(`/department/${dep}/${id}`);
+    else navigate(`/post/${id}`);
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    if (onEdit) onEdit({ id, dep, tag });
+    else alert(`Edit Post #${id}`);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (onDelete) onDelete({ id, dep, tag });
+    else {
+      const ok = confirm(`Delete Post #${id}?`);
+      if (ok) alert("Deleted (demo)");
+    }
+  };
+
+  const handleLike = (e) => {
+    e.stopPropagation();
+    alert("Liked (demo)");
+  };
+
   return (
     <div
+      onClick={goToPost}
       style={{
         background: "#23313A",
         padding: "18px",
@@ -20,39 +59,32 @@ export default function PostCard({ hasImages = true }) {
         flexDirection: "column",
         gap: "12px",
         position: "relative",
+        cursor: "pointer",
       }}
     >
-      
-      <div style={{ position: "absolute", top: "15px", right: "15px" }}>
-        <FiMoreHorizontal size={18} color="#ffffffff" />
-      </div>
+      {/* TAG */}
+      <span
+        style={{
+          border: `1px solid ${TAG_COLORS[tag]?.border || TAG_COLORS.DEFAULT.border}`,
+          padding: "2px 10px",
+          borderRadius: "6px",
+          fontSize: "12px",
+          color: TAG_COLORS[tag]?.text || TAG_COLORS.DEFAULT.text,
+          textTransform: "uppercase",
+          width: "fit-content",
+        }}
+      >
+        {tag}
+      </span>
 
-      {/* Tag */}
-    <span
-  style={{
-    border: "1px solid rgba(148, 163, 184, 0.4)", 
-    padding: "2px 10px",
-    borderRadius: "6px",
-    fontSize: "12px",
-    color: "#B0DCFF", 
-    background: "transparent",
-    width: "fit-content",
-  }}
->
-  Dev
-</span>
-
-
-      {/* Title */}
-      <h3 style={{ margin: 0, fontSize: "18px", fontWeight: "600" }}>
+      {/* TITLE */}
+      <h3 style={{ margin: 0, fontSize: "18px", fontWeight: 600 }}>
         Mobile App Repo
       </h3>
 
-      {/* Lines */}
       <div style={lineStyle}></div>
       <div style={lineStyle}></div>
 
-      {/* Images*/}
       {hasImages && (
         <div style={{ display: "flex", gap: "10px" }}>
           <div style={imgStyle}></div>
@@ -60,20 +92,28 @@ export default function PostCard({ hasImages = true }) {
         </div>
       )}
 
-     {/* Bottom Icons */}
-<div
+      
+     <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+  <button onClick={handleLike} style={iconBtn}>♡</button>
+
+  {isPresident && (
+    <>
+      <button onClick={handleEdit} style={iconBtn}>✎</button>
+    <button
+  onClick={handleDelete}
+  title="Delete"
   style={{
-    display: "flex",
-    justifyContent: "flex-end", 
-    gap: "14px",
-    alignItems: "center",
-    marginTop: "auto",
-    paddingTop: "8px",
+    ...iconBtn,
+    color: "#FFB8B8", // Soft red
   }}
+  onMouseEnter={(e) => (e.target.style.color = "#FFB8B8")}
+  onMouseLeave={(e) => (e.target.style.color = "#fbd2d2ff")}
 >
-  <FiHeart color="#FFB8B8" size={16} style={{ cursor: "pointer" }} />
-  <FiEdit2 color="#9CA3AF" size={16} style={{ cursor: "pointer" }} />
-  <FiTrash2 color="#B0DCFF" size={16} style={{ cursor: "pointer" }} />
+  <FiTrash2 size={20} />
+</button>
+
+    </>
+  )}
 </div>
 
     </div>
@@ -93,3 +133,19 @@ const imgStyle = {
   height: "75px",
   borderRadius: "8px",
 };
+
+const iconBtn = {
+  background: "transparent",
+  border: "none",
+  cursor: "pointer",
+
+  fontSize: "25px",     
+  color: "#CBD5E1",     
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+
+  transition: "0.2s ease",
+};
+
