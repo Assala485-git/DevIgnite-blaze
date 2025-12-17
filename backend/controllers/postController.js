@@ -19,6 +19,10 @@ const getAllPosts= asyncHandler(async (req,res)=>{
 //@route POST /api/posts/department/:department
 //@access Privite president/manager
 const addPost=asyncHandler(async (req,res)=>{
+    let image_filename;
+    if(req.file){
+        image_filename=`${req.file.filename}`;
+    }
     const {title,content}=req.body;
     const  dept_id  = req.params.id;
     if(!title){
@@ -31,6 +35,7 @@ const addPost=asyncHandler(async (req,res)=>{
             title,
             content,
             department:department._id,
+            image:image_filename 
         });
         if (!newPost){
         res.status(400);

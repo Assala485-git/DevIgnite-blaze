@@ -1,6 +1,9 @@
 import User from "../models/userModel.js";
 import generateToken from '../utils/generateToken.js'
 import asyncHandler from 'express-async-handler'
+import validator from "validator"
+import Department from "../models/departmentModel.js"
+import mongoose from "mongoose";
 export const login=asyncHandler(async (req,res)=>{
     const {email,password}=req.body;
     if(!email || !password){
@@ -31,7 +34,10 @@ export const register=asyncHandler(async (req,res)=>{
     const userExist=await User.findOne({email});
         if(userExist){
             return res.status(400).json({message:'user already exist'})
-        }
+    }
+    if(!validator.isEmail(email)){
+        return res.status(400).json({message:'Please enter a valid email'});
+    }
     
     const userCount = await User.countDocuments();
     let role;
@@ -144,3 +150,89 @@ export const getUsersProfiles=asyncHandler(async(req,res)=>{
     }
     
 })
+
+////@desc user to follow a department
+//@route POST /api/users/follow/:department
+//@access Privite WE MUST WORK ON THIS!!!
+export const followDepartment = asyncHandler(async (req, res) => {
+    const userId = req.user?.id;
+    const deptId = req.params.department;
+
+    if (!userId) {
+        res.status(401);
+        throw new Error("Not logged in");
+    }
+    if (!mongoose.Types.ObjectId.isValid(deptId)) {
+    res.status(400);
+    throw new Error("Invalid department ID format");
+    }
+    const dept = await Department.findById(deptId);
+
+        if (!dept) {
+            res.status(404);
+            throw new Error("Department doesn't exist");
+        } 
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $addToSet: { followedDepartments: deptId } }, // prevents duplicates
+        { new: true, runValidators: true }
+        ).select("-password"); // omit password if you want
+
+        if (!updatedUser) {
+            res.status(404);
+            throw new Error("User not found");
+        }
+
+        res.status(200).json({
+            message: "Department followed",
+            followedDepartments: updatedUser.followedDepartments,
+        });
+
+    } catch (err) {
+        res.status(500);
+        throw new Error(err.message);
+    }
+});
+
+export const unfollowDepartment = asyncHandler(async (req, res) => {
+    const userId = req.user?.id;
+    const deptId = req.params.department;
+
+    if (!userId) {
+        res.status(401);
+        throw new Error("Not logged in");
+    }
+    if (!mongoose.Types.ObjectId.isValid(deptId)) {
+    res.status(400);
+    throw new Error("Invalid department ID format");
+    }
+    const dept = await Department.findById(deptId);
+
+        if (!dept) {
+            res.status(404);
+            throw new Error("Department doesn't exist");
+        }
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $pull: { followedDepartments: deptId } },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+        if (!updatedUser) {
+            res.status(404);
+            throw new Error("User not found");
+        }
+
+        res.status(200).json({
+            message: "Department unfollowed",
+            followedDepartments: updatedUser.followedDepartments,
+        });
+
+    } catch (err) {
+        res.status(500);
+        throw new Error(err.message);
+    }
+});

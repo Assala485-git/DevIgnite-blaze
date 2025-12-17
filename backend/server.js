@@ -28,13 +28,15 @@ try {
     console.error("MongoDB connection error:", err);
   }
   
-    //create departments
+//create departments
 createDepartments();
-//API endpoint
 
+//API endpoint
 app.use("/api/posts",postRouter);
 app.use("/api/users",userRoute);
 app.use("/api/departments",DepartmentRouter);
+app.use("/images",express.static('uploads'));
+
 app.get("/", (req, res) => {
     res.send("API working")
 })
