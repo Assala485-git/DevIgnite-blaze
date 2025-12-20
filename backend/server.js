@@ -9,6 +9,7 @@ import notFound from './middleware/notFound.js';
 import errorHandler from './middleware/Error.js';
 import cookieParser from "cookie-parser";
 import DepartmentRouter from './routes/departmentRoute.js';
+import notificationRouter from './routes/notifRoute.js';
 
 
 const app = express();
@@ -35,6 +36,7 @@ createDepartments();
 app.use("/api/posts",postRouter);
 app.use("/api/users",userRoute);
 app.use("/api/departments",DepartmentRouter);
+app.use('/api/notifications', notificationRouter);
 app.use("/images",express.static('uploads'));
 
 app.get("/", (req, res) => {

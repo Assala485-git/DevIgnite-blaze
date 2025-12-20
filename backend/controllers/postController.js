@@ -1,6 +1,8 @@
 import Post from "../models/postModel.js";
 import asyncHandler from "express-async-handler";
 import Department from "../models/departmentModel.js"
+import Notification from "../models/notifModel.js";
+import User from "../models/userModel.js";
 //@desc get posts
 //@route GET /api/posts
 //@access public
@@ -41,9 +43,18 @@ const addPost=asyncHandler(async (req,res)=>{
         res.status(400);
         throw new Error(`Error while creating the post`);
         }else{
-         res.status(201).json(newPost);
+            const followers = await User.find({
+            followedDepartments: dept_id,
+         });
+        const notifications = followers.map((user) => ({
+            userId: user._id,
+            message: `A new post was published in department ${dept_id}`,
+        }));
+
+        await Notification.insertMany(notifications);
+        res.status(201).json(newPost);
         } 
-        }
+    }
         else{
                 res.status(401);
                 throw new Error("department doesn't exist");
