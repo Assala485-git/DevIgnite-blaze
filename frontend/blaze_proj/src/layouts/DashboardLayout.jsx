@@ -1,7 +1,12 @@
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
+
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout() {
+  const [role, setRole] = useState("user"); // "user" or "president"
+
   return (
     <div
       style={{
@@ -9,35 +14,25 @@ export default function DashboardLayout({ children }) {
         background: "#0A0C10",
         minHeight: "100vh",
         width: "100vw",
-        margin: 0,
-        padding: 0,
-        overflowX: "hidden",
+        overflow: "hidden",
       }}
     >
       <Sidebar />
 
-      {/* MAIN CONTENT */}
       <div
         style={{
           flex: 1,
           overflowY: "auto",
-          display: "flex",
-          justifyContent: "center",
+          paddingTop: "20px",
+          paddingLeft: "20px",
+          paddingRight: "20px",
         }}
       >
-        {/* CENTERED PAGE WRAPPER */}
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "1500px",
-            padding: "20px 40px",
-          }}
-        >
-          <Topbar />
+        <Topbar role={role} setRole={setRole} />
 
-          <div style={{ marginTop: "20px" }}>
-            {children}
-          </div>
+        <div style={{ marginTop: "25px", width: "100%" }}>
+          {/* pages render here + they receive {role} */}
+          <Outlet context={{ role }} />
         </div>
       </div>
     </div>
