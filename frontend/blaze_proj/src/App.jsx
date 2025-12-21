@@ -12,6 +12,7 @@ import More from "./sections/more.jsx";
 import Footer from "./sections/footer.jsx";
 import Login from "./sections/login.jsx";
 import  Signup from "./sections/signup.jsx";
+import Profile from "./sections/profile.jsx"
 
 function LandingPage() {
   return (
@@ -42,6 +43,7 @@ function App() {
       {/* Login page without Navbar */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
   );
 }
