@@ -1,0 +1,34 @@
+.login-navbar {
+  display: flex;
+  justify-content: space-between; /* left + right */
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #000000;
+  
+}
+
+.login-navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space between logo and text */
+}
+
+.login-logo {
+  height: 70px;
+  width: 70px; /* adjust as needed */
+}
+
+.login-navbar-left span {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.login-navbar-right .back-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none ;
+  background-color: #000000;
+  color: #696565;
+}
