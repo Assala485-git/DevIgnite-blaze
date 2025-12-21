@@ -1,18 +1,49 @@
-import { useState } from 'react'
-import './App.css'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 
+// Components
+import Navbar from "./components/navbar.jsx";
 
+// Pages / Sections
+import Hero from "./sections/hero.jsx";
+import Posts from "./sections/posts.jsx";
+import Departments from "./sections/departments.jsx";
+import More from "./sections/more.jsx";
+import Footer from "./sections/footer.jsx";
+import Login from "./sections/login.jsx";
+import  Signup from "./sections/signup.jsx";
 
-function App() {
-  
-
+function LandingPage() {
   return (
-      <div>
-      <h1>My First React Project</h1>
-      <p>Welcome! I’m building my app now.</p>
-    </div>
-      
-  )
+    <>
+      <Hero />
+      <Posts />
+      <Departments />
+      <More />
+      <Footer />
+    </>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <Routes>
+      {/* Landing page with Navbar */}
+      <Route
+        path="/"
+        element={
+          <>
+            <Navbar />
+            <LandingPage />
+          </>
+        }
+      />
+
+      {/* Login page without Navbar */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+    </Routes>
+  );
+}
+
+export default App;
