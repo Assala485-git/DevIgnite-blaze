@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const COLORS = {
-  Dev: "#B0DCFF",
+  Devlopement: "#B0DCFF",
   Des: "#D6C3FF",
   AI: "#C3FFDD",
   RH: "#FFE4A3",
   Default: "#ffffff",
 };
 
-export default function DepartmentCard({ tag, role = "user" }) {
+export default function DepartmentCard({ tag, role = "user", description, title }) {
   const isPresident = role === "president";
 
   const navigate = useNavigate();
@@ -39,23 +39,9 @@ export default function DepartmentCard({ tag, role = "user" }) {
         position: "relative",
       }}
     >
-      {/* TITLE PLACEHOLDER */}
-      <div
-        style={{
-          height: "24px",
-          width: "60%",
-          background: "#ffffff",
-          borderRadius: "6px",
-          opacity: 0.8,
-        }}
-      />
+      <h2>{title}</h2>
 
-      {/* TEXT LINES */}
-      <div style={{ height: "12px", width: "90%", background: "#7A8286", borderRadius: "4px" }} />
-      <div style={{ height: "12px", width: "75%", background: "#7A8286", borderRadius: "4px" }} />
-
-      {/* TAG */}
-      <span
+      {/* TAG <span
         style={{
           marginTop: "10px",
           border: `1px solid ${color}`,
@@ -67,8 +53,9 @@ export default function DepartmentCard({ tag, role = "user" }) {
         }}
       >
         {tag}
-      </span>
-
+      </span> */}
+      
+        <p>{description}</p>
      
       {isPresident && (
         <button

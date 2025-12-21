@@ -16,7 +16,7 @@ const storage= multer.diskStorage({
 //const storage
 const upload=multer({storage});
 
-postRouter.get('/',protect,getAllPosts);
+postRouter.get('/',getAllPosts);
 postRouter.route('/department/:id').get(getPost).post(protect,presidentOrManager,upload.single("image"),addPost);
 postRouter.route('/general').get(getGeneralPosts).post(protect,presidentOnly,upload.single("image"),addGeneralPost);
 export default postRouter

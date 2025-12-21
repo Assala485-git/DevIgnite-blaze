@@ -1,8 +1,13 @@
 import { useOutletContext } from "react-router-dom";
 import { FiShare2, FiHeart, FiEdit2, FiTrash2 } from "react-icons/fi";
+import { useAuth } from "../context/authContext";
 
 export default function PostDetails() {
-  const { role } = useOutletContext();
+  const { user, loading } = useAuth();
+  
+  if (loading) return null;
+  
+  const role = user?.Role; // president / manager / user
   const isPresident = role === "president";
 
   return (

@@ -1,9 +1,31 @@
 import { useOutletContext } from "react-router-dom";
 import DepartmentCard from "../components/DepartmentCard";
 import { FiCalendar, FiShare2 } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { getDepartments } from "../services/api";
+import { useAuth } from "../context/authContext";
 
+  
+  /*const [deptList, setDeptList]=useState([]);
+  const fetchDeptList= async ()=>{
+    const response=await axios.get(url+"/api/department");
+    setDeptList(response.data.data);
+  }
+  useEffect(()=>{
+    await fetchDeptList();
+  })*/
 export default function AllDepartments() {
-  const { role } = useOutletContext(); // ✅
+  //const { role } = useOutletContext(); 
+
+  
+
+const { user, loading } = useAuth();
+
+if (loading) return null;
+
+const role = user?.Role; // president / manager / user
+console.log(role);
+const isPresident = role === "president";
 
   const buttonStyle = {
     background: "transparent",
@@ -17,6 +39,20 @@ export default function AllDepartments() {
     alignItems: "center",
     gap: "8px",
   };
+
+  const [departments,setDepartments]=useState([]);
+  const [ setLoading] = useState(true);
+  useEffect(() => {
+    getDepartments()
+      .then((res) => {
+        setDepartments(res.data);
+        console.log(user);
+      })
+      .catch((err) => console.error(err))
+      //.finally(() => setLoading(false));
+  }, []);
+
+  
 
   return (
     <>
@@ -39,17 +75,17 @@ export default function AllDepartments() {
 
       {/* GRID */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "24px" }}>
-        <DepartmentCard tag="Dev" role={role} />
-        <DepartmentCard tag="Des" role={role} />
-        <DepartmentCard tag="AI" role={role} />
-
-        <DepartmentCard tag="Dev" role={role} />
-        <DepartmentCard tag="RH" role={role} />
-        <DepartmentCard tag="Dev" role={role} />
-
-        <DepartmentCard tag="AI" role={role} />
-        <DepartmentCard tag="Dev" role={role} />
-        <DepartmentCard tag="Des" role={role} />
+        {departments.map((dept) => (
+                  <DepartmentCard
+                    key={dept._id}
+                    id={dept._id}
+                    title={dept.name}
+                    description={dept.description}
+                    tag={dept.name}
+                    //dep={post.department || null}
+                    role={role}
+                  />
+                ))}
       </div>
     </>
   );

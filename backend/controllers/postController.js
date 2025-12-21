@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import Department from "../models/departmentModel.js"
 import Notification from "../models/notifModel.js";
 import User from "../models/userModel.js";
-//@desc get posts
+//@desc get all posts
 //@route GET /api/posts
 //@access public
 const getAllPosts= asyncHandler(async (req,res)=>{

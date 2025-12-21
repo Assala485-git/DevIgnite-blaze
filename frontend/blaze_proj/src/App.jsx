@@ -8,6 +8,7 @@ import DevelopmentPosts from "./pages/DevelopmentPosts.jsx";
 import DepartmentPostDetails from "./pages/DepartmentPostDetails.jsx";
 import GeneralPosts from "./pages/GeneralPosts.jsx";
 import PostDetails from "./pages/PostDetails.jsx";
+import Login from "./pages/login.jsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/department/:dep/:id" element={<DepartmentPostDetails />} />
         <Route path="/general" element={<GeneralPosts />} />
         <Route path="/post/:id" element={<PostDetails />} />
+        <Route path="/login" element={<Login />} />
       </Route>
     </Routes>
   );

@@ -23,7 +23,7 @@ export default function DepartmentPostDetails() {
         </div>
 
         <h2 style={{ marginTop: "20px" }}>Mobile App Repo</h2>
-
+        
         <div style={{ height: "12px", background: "#6B7280", margin: "8px 0" }}></div>
         <div style={{ height: "12px", background: "#6B7280", margin: "8px 0" }}></div>
         <div style={{ height: "12px", background: "#6B7280", margin: "8px 0" }}></div>

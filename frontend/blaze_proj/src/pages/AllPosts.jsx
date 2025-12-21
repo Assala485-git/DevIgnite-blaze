@@ -1,11 +1,83 @@
 import { useOutletContext } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { FiCalendar, FiShare2 } from "react-icons/fi";
+import PostCard from "../components/PostCard";
+import { getAllPosts } from "../services/api";
+
+export default function AllPosts() {
+  const { role } = useOutletContext();
+  const isPresident = role === "president";
+
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getAllPosts()
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
+  return (
+    <>
+      {/* TITLE */}
+      <h1 style={{ fontSize: "32px", fontWeight: 700, color: "#fff" }}>
+        All Posts
+      </h1>
+
+      {/* GRID */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "24px",
+          marginTop: "20px",
+        }}
+      >
+        {posts.map((post) => (
+          <PostCard
+            key={post._id}
+            id={post._id}
+            title={post.title}
+            description={post.content}
+            tag={post.tag || "DEV"}
+            dep={post.department || null}
+            role={role}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
+/*import { useOutletContext } from "react-router-dom";
 import PostCard from "../components/PostCard";
 import { FiCalendar, FiShare2 } from "react-icons/fi";
+import { getAllPosts } from "../services/api";
+import { useState,useEffect } from "react";
 
 export default function AllPosts() {
   const { role } = useOutletContext();         
   const isPresident = role === "president";
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    getAllPosts()
+      .then(res => {
+        setPosts(res.data);
+        console.log(posts);
+      })
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  
   const buttonStyle = {
     background: "transparent",
     border: "1px solid #3E424A",
@@ -21,7 +93,7 @@ export default function AllPosts() {
 
   return (
     <>
-      {/* TITLE */}
+      {/* TITLE }
       <div style={{ display: "flex", alignItems: "center", marginBottom: "25px" }}>
         <div
           style={{
@@ -37,7 +109,7 @@ export default function AllPosts() {
         </h1>
       </div>
 
-      {/* BUTTONS */}
+      {/* BUTTONS }
       <div
         style={{
           display: "flex",
@@ -64,7 +136,7 @@ export default function AllPosts() {
         </button>
       </div>
 
-      {/* GRID */}
+      {/* GRID }
       <div
         style={{
           display: "grid",
@@ -95,4 +167,4 @@ export default function AllPosts() {
       </div>
     </>
   );
-}
+}*/
