@@ -6,19 +6,8 @@ import { getDepartments } from "../services/api";
 import { useAuth } from "../context/authContext";
 
   
-  /*const [deptList, setDeptList]=useState([]);
-  const fetchDeptList= async ()=>{
-    const response=await axios.get(url+"/api/department");
-    setDeptList(response.data.data);
-  }
-  useEffect(()=>{
-    await fetchDeptList();
-  })*/
 export default function AllDepartments() {
-  //const { role } = useOutletContext(); 
-
   
-
 const { user, loading } = useAuth();
 
 if (loading) return null;

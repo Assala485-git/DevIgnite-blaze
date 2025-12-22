@@ -3,13 +3,20 @@ import { useEffect, useState } from "react";
 import { FiCalendar, FiShare2 } from "react-icons/fi";
 import PostCard from "../components/PostCard";
 import { getAllPosts } from "../services/api";
+import { useAuth } from "../context/authContext";
 
 export default function AllPosts() {
-  const { role } = useOutletContext();
+  
+  
+    
+  const { user, loading } = useAuth();
+  
+  if (loading) return null;
+  
+  const role = user?.Role; // president / manager / user
   const isPresident = role === "president";
 
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getAllPosts()
@@ -17,18 +24,53 @@ export default function AllPosts() {
         setPosts(res.data);
       })
       .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <p>Loading...</p>;
-
+  const buttonStyle = {
+    background: "transparent",
+    border: "1px solid #3E424A",
+    borderRadius: "8px",
+    padding: "8px 14px",
+    color: "#ffffff",
+    cursor: "pointer",
+    fontSize: "14px",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  };
   return (
     <>
       {/* TITLE */}
       <h1 style={{ fontSize: "32px", fontWeight: 700, color: "#fff" }}>
         All Posts
       </h1>
+    {/* BUTTONS */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          marginBottom: "25px",
+        }}
+      >
+        <div style={{ display: "flex", gap: "15px" }}>
+          <button style={buttonStyle}>
+            <FiCalendar size={16} /> Today ▾
+          </button>
 
+          {isPresident && (
+            <button style={buttonStyle}>
+              + Create Post
+            </button>
+          )}
+        </div>
+
+        <button style={buttonStyle}>
+          <FiShare2 size={16} /> Share
+        </button>
+      </div>
       {/* GRID */}
       <div
         style={{

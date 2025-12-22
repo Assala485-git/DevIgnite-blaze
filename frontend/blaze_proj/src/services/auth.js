@@ -9,3 +9,6 @@ export const logout = () =>
 
 export const getMe = () =>
   API.get("/users/profile");
+
+export const signUp = () =>
+  API.get("/users");
