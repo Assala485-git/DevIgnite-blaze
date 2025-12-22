@@ -3,16 +3,20 @@ import { Link } from "react-router-dom";
 import logo from "../assets/LogoLeft.png";
 import "./Sidebar.css";
 
-export default function Sidebar({ role }) {
+export default function Sidebar({ role = "user" }) {
+
   const isPresident = role === "president";
 
   return (
     <aside className="sidebar">
       {/* TOP */}
       <div>
-        <div className="sidebar-logo">
-          <img src={logo} alt="CSE logo" />
-        </div>
+      <div className="sidebar-logo">
+  <Link to="/">
+    <img src={logo} alt="CSE logo" />
+  </Link>
+</div>
+
 
         <nav className="sidebar-nav">
           <SidebarLink icon={<FaHome />} text="General" to="/general" />

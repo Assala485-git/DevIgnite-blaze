@@ -1,11 +1,17 @@
-import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
+import { useAuth } from "../context/authContext";
 
 export default function DashboardLayout() {
-  const [role, setRole] = useState("user"); // "user" or "president"
+  const { user, loading } = useAuth();
+
+  // wait until auth is ready
+  if (loading) return null;
+
+  // support both Role and role (depending on your backend)
+  const role = user?.Role || user?.role || "user";
 
   return (
     <div
@@ -17,7 +23,8 @@ export default function DashboardLayout() {
         overflow: "hidden",
       }}
     >
-      <Sidebar />
+      {/* pass role to sidebar */}
+      <Sidebar role={role} />
 
       <div
         style={{
@@ -28,10 +35,11 @@ export default function DashboardLayout() {
           paddingRight: "20px",
         }}
       >
-        <Topbar role={role} setRole={setRole} />
+        {/* Topbar just displays role (no setRole needed now) */}
+        <Topbar role={role} />
 
         <div style={{ marginTop: "25px", width: "100%" }}>
-          {/* pages render here + they receive {role} */}
+          {/* pages render here + they receive role */}
           <Outlet context={{ role }} />
         </div>
       </div>

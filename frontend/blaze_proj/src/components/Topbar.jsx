@@ -1,15 +1,14 @@
 import { useAuth } from "../context/authContext";
 import { logout } from "../services/auth";
 import { useNavigate } from "react-router-dom";
-export default function Topbar({  setRole }) {
-    
-  
+
+export default function Topbar() {
   const { user, loading, setUser } = useAuth();
   const navigate = useNavigate();
-  
+
   if (loading) return null;
-  
-  const role = user?.Role; // president / manager / user
+
+  const role = user?.Role || user?.role || "user";
   const isPresident = role === "president";
 
   return (
@@ -17,7 +16,7 @@ export default function Topbar({  setRole }) {
       style={{
         width: "100%",
         display: "flex",
-        justifyContent: "space-between", 
+        justifyContent: "space-between",
         alignItems: "center",
         marginBottom: "25px",
       }}
@@ -38,40 +37,40 @@ export default function Topbar({  setRole }) {
         }}
       />
 
-      {/* ROLE TOGGLE BUTTON */}
-      <button
-        onClick={() => setRole(isPresident ? "user" : "president")}
+      {/* ROLE LABEL */}
+      <div
         style={{
-          background: "transparent",
           border: "1px solid #3E424A",
           borderRadius: "8px",
           padding: "8px 14px",
           color: "#ffffff",
-          cursor: "pointer",
           fontSize: "13px",
         }}
       >
         Role: {isPresident ? "President" : "User"}
-      </button>
-      {user && <button
-       onClick={async ()=>{
-        await logout();
-        setUser(null);
-        navigate("/login");
+      </div>
 
-       }}
-        style={{
-          background: "transparent",
-          border: "1px solid #3E424A",
-          borderRadius: "8px",
-          padding: "8px 14px",
-          color: "#ffffff",
-          cursor: "pointer",
-          fontSize: "13px",
-        }}
-      >
-        logout
-      </button>}
+      {/* LOGOUT */}
+      {user && (
+        <button
+          onClick={async () => {
+            await logout();
+            setUser(null);
+            navigate("/login");
+          }}
+          style={{
+            background: "transparent",
+            border: "1px solid #3E424A",
+            borderRadius: "8px",
+            padding: "8px 14px",
+            color: "#ffffff",
+            cursor: "pointer",
+            fontSize: "13px",
+          }}
+        >
+          Logout
+        </button>
+      )}
     </div>
   );
 }
