@@ -4,10 +4,12 @@ import { FiCalendar, FiShare2 } from "react-icons/fi";
 import PostCard from "../components/PostCard";
 import { getAllPosts } from "../services/api";
 import { useAuth } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AllPosts() {
   
-  
+  const navigate = useNavigate();
+
     
   const { user, loading } = useAuth();
   
@@ -61,10 +63,14 @@ export default function AllPosts() {
           </button>
 
           {isPresident && (
-            <button style={buttonStyle}>
-              + Create Post
-            </button>
-          )}
+  <button
+    style={buttonStyle}
+    onClick={() => navigate("/create-post")}
+  >
+    + Create Post
+  </button>
+)}
+
         </div>
 
         <button style={buttonStyle}>
