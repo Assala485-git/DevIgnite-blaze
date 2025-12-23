@@ -26,6 +26,7 @@
   font-weight: 700;
   margin-bottom: 70px;
   line-height: 1.3;
+  cursor:pointer;
 }
 
 /* Placeholder lines */
@@ -105,6 +106,7 @@
   background: #c0c5d4;
   border-radius: 4px;
   margin-bottom: 20px;
+  cursor:pointer;
 }
 
 .dep-text-bar {

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { followDepart, unfollowDepart } from "../services/api";
 
 const COLORS = {
   Devlopement: "#B0DCFF",
@@ -9,74 +10,77 @@ const COLORS = {
   Default: "#ffffff",
 };
 
-export default function DepartmentCard({ tag, role = "user", description, title }) {
-  const isPresident = role === "president";
+export default function DepartmentCard({ id, tag, user, description, title }) {
+  const isPresident = user.Role === "president";
 
   const navigate = useNavigate();
   const color = COLORS[tag] || COLORS.Default;
 
-  const [followed, setFollowed] = useState(false);
+  const [followed, setFollowed] = useState(user.followedDepartments.includes(id));
 
-  const goToDep = () => navigate(`/department/${tag.toLowerCase()}`);
+  const goToDep = () => navigate(`/department/${id}`);
 
   const handleFollow = (e) => {
     e.stopPropagation(); 
-    setFollowed((p) => !p);
+    if(!followed){
+    followDepart(id);
+    setFollowed(true);
+    } else{
+      unfollowDepart(id);
+      setFollowed(true);
+    }
+    
   };
+ 
 
   return (
     <div
-      onClick={goToDep}
+  onClick={goToDep}
+  style={{
+    background: "#23313A",
+    padding: "20px",
+    borderRadius: "16px",
+    cursor: "pointer",
+    color: "white",
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+  }}
+>
+  <h2 style={{ margin: 0 }}>{title}</h2>
+
+  <p style={{ margin: 0, color: "#CBD5E1", lineHeight: "1.6" }}>
+    {description}
+  </p>
+
+  {/* Footer */}
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "flex-end",
+      marginTop: "auto",
+    }}
+    onClick={(e) => e.stopPropagation()} // prevent card click
+  >
+    <button
+      onClick={handleFollow}
       style={{
-        background: "#23313A",
-        padding: "20px",
-        borderRadius: "16px",
-        cursor: "pointer",
+        background: followed ? "transparent" : "#3B82F6",
+        border: followed ? "1px solid #3E424A" : "none",
         color: "white",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        position: "relative",
+        padding: "8px 18px",
+        borderRadius: "999px",
+        cursor: "pointer",
+        fontSize: "13px",
+        fontWeight: 600,
+        transition: "all 0.2s ease",
       }}
     >
-      <h2>{title}</h2>
+      {followed ? "Followed" : "Follow"}
+    </button>
+  </div>
+</div>
 
-      {/* TAG <span
-        style={{
-          marginTop: "10px",
-          border: `1px solid ${color}`,
-          color,
-          padding: "2px 8px",
-          borderRadius: "6px",
-          width: "fit-content",
-          fontSize: "12px",
-        }}
-      >
-        {tag}
-      </span> */}
-      
-        <p>{description}</p>
-     
-      {isPresident && (
-        <button
-          onClick={handleFollow}
-          style={{
-            position: "absolute",
-            right: "16px",
-            bottom: "16px",
-            background: followed ? "transparent" : "#3B82F6",
-            border: followed ? "1px solid #3E424A" : "none",
-            color: "white",
-            padding: "8px 14px",
-            borderRadius: "10px",
-            cursor: "pointer",
-            fontSize: "13px",
-            fontWeight: 600,
-          }}
-        >
-          {followed ? "Followed" : "Follow"}
-        </button>
-      )}
-    </div>
   );
 }

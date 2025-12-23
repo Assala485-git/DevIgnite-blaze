@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addGeneralPost } from "../services/api";
 
 export default function CreatePost() {
   const navigate = useNavigate();
@@ -9,14 +10,19 @@ export default function CreatePost() {
   const [image, setImage] = useState(null);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // FRONTEND ONLY (for now)
-    console.log({ title, content, image });
-
-    alert("Post created (frontend only)");
-    navigate("/posts");
+  e.preventDefault();
+  const postData = {
+    title,
+    content,
+    imageFile: image, // from <input type="file" />
   };
+  addGeneralPost(postData)
+    .then(res => {console.log(res.data);
+      navigate("/general");
+    })
+    .catch(err => console.error(err));
+};
+
 
   return (
     <div style={{ width: "100%", maxWidth: "520px", margin: "0 auto" }}>

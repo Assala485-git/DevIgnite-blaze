@@ -13,7 +13,7 @@ const { user, loading } = useAuth();
 if (loading) return null;
 
 const role = user?.Role; // president / manager / user
-console.log(role);
+console.log(user);
 const isPresident = role === "president";
 
   const buttonStyle = {
@@ -68,11 +68,11 @@ const isPresident = role === "president";
                   <DepartmentCard
                     key={dept._id}
                     id={dept._id}
-                    title={dept.name}
+                    title={dept.name} 
                     description={dept.description}
                     tag={dept.name}
                     //dep={post.department || null}
-                    role={role}
+                    user={user}
                   />
                 ))}
       </div>

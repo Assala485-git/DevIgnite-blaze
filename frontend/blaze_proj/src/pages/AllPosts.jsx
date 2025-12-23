@@ -24,6 +24,7 @@ export default function AllPosts() {
     getAllPosts()
       .then((res) => {
         setPosts(res.data);
+        console.log(posts);
       })
       .catch((err) => console.error(err))
   }, []);
@@ -95,6 +96,7 @@ export default function AllPosts() {
             tag={post.tag || "DEV"}
             dep={post.department || null}
             role={role}
+            image={post.image}
           />
         ))}
       </div>

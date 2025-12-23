@@ -67,7 +67,10 @@ const addPost=asyncHandler(async (req,res)=>{
 //@route POST /api/posts/geberal
 //@access Privite president
 const addGeneralPost=asyncHandler(async (req,res)=>{
-    console.log(req.user);
+    let image_filename;
+    if(req.file){
+        image_filename=`${req.file.filename}`;
+    }
     const {title,content}=req.body;
     if(!title){
         res.status(400);
@@ -77,6 +80,7 @@ const addGeneralPost=asyncHandler(async (req,res)=>{
             title,
             content,
             department:null,
+            image:image_filename,
         });
         if (!newPost){
         res.status(400);
@@ -105,6 +109,8 @@ const getPost=asyncHandler(async (req,res)=>{
     
     ) 
 
+
+
 //@desc get general post
 //@route GET /api/posts/general
 //@access public
@@ -114,4 +120,29 @@ const getGeneralPosts=asyncHandler(async (req,res)=>{
         } 
    ) 
 
-export {getAllPosts,addPost,addGeneralPost,getPost,getGeneralPosts}
+//@desc Delete a post
+//@route DELETE /api/posts/:id
+//@access Private (president)
+const deletePost = asyncHandler(async (req, res) => {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+        res.status(404);
+        throw new Error("Post not found");
+    }
+
+    // Optional: Delete the image file from server if exists
+    if (post.image) {
+        const fs = require("fs");
+        const path = require("path");
+        const imagePath = path.join(__dirname, "../uploads", post.image);
+        if (fs.existsSync(imagePath)) {
+            fs.unlinkSync(imagePath);
+        }
+    }
+
+    await post.remove();
+    res.status(200).json({ message: "Post deleted successfully" });
+});
+
+export {getAllPosts,addPost,addGeneralPost,getPost,getGeneralPosts,deletePost}
