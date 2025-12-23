@@ -34,7 +34,7 @@ export default function Sidebar({ role }) {
 
       {/* FOOTER */}
       <div>
-        <SidebarLink icon={<FaUser />} text="Account" to="/account" />
+        <SidebarLink icon={<FaUser />} text="Account" to="/profile" />
       </div>
     </aside>
   );

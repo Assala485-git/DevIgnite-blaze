@@ -36,8 +36,7 @@ function LandingPage() {
 function App() {
   return (
     <Routes>
-      {/* EVERYTHING INSIDE DashboardLayout (so Outlet context works) */}
-      <Route element={<DashboardLayout />}>
+      {/* EVERYTHING INSIDE DashboardLayout */}
       <Route
         path="/"
         element={
@@ -47,14 +46,15 @@ function App() {
           </>
         }
        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      <Route element={<DashboardLayout />}>
         <Route path="/posts" element={<AllPosts />} />
         <Route path="/departments" element={<AllDepartments />} />
         <Route path="/department/:dep" element={<DevelopmentPosts />} />
         <Route path="/department/:dep/:id" element={<DepartmentPostDetails />} />
         <Route path="/general" element={<GeneralPosts />} />
         <Route path="/post/:id" element={<PostDetails />} />
-        <Route path="/login" element={<Login />} />
-       <Route path="/signup" element={<Signup />} />
        <Route path="/profile" element={<Profile />} />
       </Route>
 </Routes>
