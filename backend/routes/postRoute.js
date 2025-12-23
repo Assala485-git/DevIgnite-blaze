@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllPosts, addPost, addGeneralPost, getPost, getGeneralPosts } from "../controllers/postController.js";
+import { getAllPosts, addPost, addGeneralPost, getPost, getGeneralPosts ,deletePost} from "../controllers/postController.js";
 import { protect, presidentOnly, presidentOrManager } from "../middleware/authMiddleware.js";
 import multer from "multer";
 //import multer from "multer";
@@ -19,4 +19,6 @@ const upload=multer({storage});
 postRouter.get('/',getAllPosts);
 postRouter.route('/department/:id').get(getPost).post(protect,presidentOrManager,upload.single("image"),addPost);
 postRouter.route('/general').get(getGeneralPosts).post(protect,presidentOnly,upload.single("image"),addGeneralPost);
+postRouter.delete("/:id", protect,presidentOnly, deletePost);
+
 export default postRouter

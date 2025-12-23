@@ -18,6 +18,7 @@ export default function PostCard({
   role = "user",
   onDelete,
   onEdit,
+  image
 }) {
   const navigate = useNavigate();
   const isPresident = role === "president";
@@ -32,9 +33,15 @@ export default function PostCard({
     onEdit?.({ id, dep, tag });
   };
 
-  const handleDelete = (e) => {
+  const handleDelete = () => {
     e.stopPropagation();
-    onDelete?.({ id, dep });
+    
+      deletePost(id)
+  .then(res => console.log(res.data.message))
+  .catch(err => console.error(err));
+    
+    
+
   };
 
   return (
@@ -75,6 +82,19 @@ export default function PostCard({
       <p style={{ color: "#CBD5E1", fontSize: "14px", lineHeight: "1.5" }}>
         {description}
       </p>
+      {image && <div>
+        <img
+          src={`http://localhost:5000/images/${image}`}
+          alt={title}
+          style={{
+            width: "100%",
+            height: "auto",
+            borderRadius: "12px",
+            marginTop: "12px",
+            objectFit: "cover",
+          }}
+        />
+      </div>}
 
       {/* ACTIONS */}
       <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>

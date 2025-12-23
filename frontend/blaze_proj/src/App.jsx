@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "./layouts/DashboardLayout";
+import React, { useRef } from "react";
 
 // Components / Pages
 import Navbar from "./components/navbar.jsx";
@@ -9,7 +10,7 @@ import DevelopmentPosts from "./pages/DevelopmentPosts.jsx";
 import DepartmentPostDetails from "./pages/DepartmentPostDetails.jsx";
 import GeneralPosts from "./pages/GeneralPosts.jsx";
 import PostDetails from "./pages/PostDetails.jsx";
-import CreatePost from "./pages/CreatePost.jsx"; // ✅ ADD THIS
+import CreatePost from "./pages/CreatePost.jsx";
 
 // Sections
 import Hero from "./sections/hero.jsx";
@@ -21,13 +22,34 @@ import Login from "./sections/login.jsx";
 import Signup from "./sections/signup.jsx";
 import Profile from "./sections/profile.jsx";
 
+
 function LandingPage() {
+  // Create refs for scrolling
+  const postsRef = useRef(null);
+  const departmentsRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
-      <Hero />
-      <Posts />
-      <Departments />
-      <More />
+      <Hero scrollToSection={scrollToSection} postsRef={postsRef} departmentsRef={departmentsRef} />
+
+      <section ref={postsRef}>
+        <Posts />
+      </section>
+
+      <section ref={departmentsRef}>
+        <Departments />
+      </section>
+
+      <section>
+        <More />
+      </section>
+
       <Footer />
     </>
   );
@@ -56,9 +78,20 @@ function App() {
         <Route path="/general" element={<GeneralPosts />} />
         <Route path="/post/:id" element={<PostDetails />} />
        <Route path="/profile" element={<Profile />} />
+       <Route path="/create-post" element={<CreatePost />} />
       </Route>
     </Routes>
   );
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+

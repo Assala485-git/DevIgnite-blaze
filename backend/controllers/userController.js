@@ -80,6 +80,7 @@ export const getProfile=asyncHandler(async(req,res)=>{
         name:user.name,
         email:user.email,
         Role:user.role, 
+        followedDepartments:user.followedDepartments,
       }) 
     } 
     else {
@@ -153,7 +154,7 @@ export const getUsersProfiles=asyncHandler(async(req,res)=>{
 
 ////@desc user to follow a department
 //@route POST /api/users/follow/:department
-//@access Privite WE MUST WORK ON THIS!!!
+//@access Privite 
 export const followDepartment = asyncHandler(async (req, res) => {
     const userId = req.user?.id;
     const deptId = req.params.department;

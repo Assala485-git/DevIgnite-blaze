@@ -18,14 +18,11 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // 1️⃣ Login → backend sets cookie
       await login({ email, password });
 
-      // 2️⃣ Fetch authenticated user
       const res = await getMe();
       setUser(res.data);
 
-      // 3️⃣ Redirect
       navigate("/");
     } catch (err) {
       setError("Invalid email or password");

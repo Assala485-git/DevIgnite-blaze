@@ -9,14 +9,7 @@ const API = axios.create({
   },
 });
 
-/* Optional: Add a request interceptor to attach token automatically
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token'); // your auth token
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});*/
+
 
 // ================= POSTS =================
 
@@ -38,7 +31,33 @@ export const getDepartmentPosts = (department) =>
 //  Get general posts (public)
 export const getGeneralPosts = () => API.get('/posts/general');
 
+export const addPost = () => API.post('/posts/department/:department');
+
+export const addGeneralPost = (postData) => {
+  // postData: { title, content, imageFile }
+  const formData = new FormData();
+  formData.append("title", postData.title);
+  formData.append("content", postData.content);
+  formData.append("image", postData.imageFile); // the file from input
+
+  return API.post("/posts/general", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const deletePost = (postId) => API.delete(`/posts/${postId}`);
+
+export const getPost = (deptId) => API.get(`/posts/department/${deptId}`);
 //====================departments=====================
 export const getDepartments = () => API.get('/departments');
+export const getDepartment = (id) => API.get(`/departments/${id}`);
+
+export const followDepart = (dep) =>
+  API.post(`/users/follow/${dep}`);
+
+export const unfollowDepart = (dep) =>
+  API.post(`/users/unfollow/${dep}`);
 
 export default API

@@ -10,7 +10,7 @@ export default function GeneralPosts() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
 
-  const role = user?.Role || user?.role || "user";
+  const role = user?.Role || "user";
   const isPresident = role === "president";
 
   const [genPosts, setGenPosts] = useState([]);
@@ -88,6 +88,8 @@ export default function GeneralPosts() {
             tag="GENERAL"
             dep={null}
             role={role}
+            image={post.image}
+            onDelete={role==="president"}
           />
         ))}
       </div>

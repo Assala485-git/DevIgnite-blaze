@@ -1,9 +1,31 @@
 import { useParams } from "react-router-dom";
+import { getDepartment, getPost } from "../services/api";
+import { useNavigate } from "react-router-dom"; 
+import { useState,useEffect } from "react";
+import PostCard from "../components/PostCard";
+export default function DevelopmentPosts(name) {
+  const { dep } = useParams();
+  
+  /*const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
 
-export default function DepartmentPostDetails() {
-  const { dep, id } = useParams();
+  const role = user?.Role || user?.role || "user";
+  const isPresident = role === "president";
+  const [loading, setLoading] = useState(true);*/
+  const [posts, setPosts] = useState([]);
+  const [department, setDepartment] = useState([]);
 
-  return (
+  useEffect(() => {
+    console.log(dep);
+    getPost(dep)
+      .then((res) => setPosts(res.data))
+      .catch((err) => console.error(err));
+      //.finally(() => setLoading(false));
+    getDepartment(dep)
+    .then((res) => setDepartment(res.data))
+    .catch((err) => console.error(err))
+  }, []); 
+   return (
     <>
       <div style={{ padding: "20px", color: "white" }}>
         <div style={{ display: "flex", alignItems: "center", marginBottom: "25px" }}>
@@ -18,20 +40,33 @@ export default function DepartmentPostDetails() {
           ></div>
 
           <h1 style={{ fontSize: "32px", fontWeight: 700, margin: 0 }}>
-            {dep.toUpperCase()} – Post #{id}
+            {department.name} – Posts
           </h1>
         </div>
 
-        <h2 style={{ marginTop: "20px" }}>Mobile App Repo</h2>
+        <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, 1fr)",
+                  gap: "24px",
+                }}
+              >
+                {posts.map((post) => (
+                  <PostCard
+                    key={post._id}
+                    id={post._id}
+                    title={post.title}
+                    description={post.content}
+                    tag="GENERAL"
+                    dep={null}
+                    
+                    image={post.image}
+                  />
+                ))}
+              </div>
         
-        <div style={{ height: "12px", background: "#6B7280", margin: "8px 0" }}></div>
-        <div style={{ height: "12px", background: "#6B7280", margin: "8px 0" }}></div>
-        <div style={{ height: "12px", background: "#6B7280", margin: "8px 0" }}></div>
 
-        <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
-          <div style={{ flex: 1, height: "150px", background: "#E2E7F0", borderRadius: "12px" }}></div>
-          <div style={{ flex: 1, height: "150px", background: "#E2E7F0", borderRadius: "12px" }}></div>
-        </div>
+        
       </div>
     </>
   );

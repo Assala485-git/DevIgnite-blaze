@@ -10,5 +10,9 @@ export const logout = () =>
 export const getMe = () =>
   API.get("/users/profile");
 
-export const signUp = () =>
-  API.get("/users");
+export const signUp = (data) =>
+  API.post("/users",data);
+
+
+
+

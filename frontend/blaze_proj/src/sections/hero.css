@@ -9,7 +9,10 @@
   overflow: visible;
 }
 
-
+.hook{
+  font-size: 30px;
+  margin-bottom: 50px;
+}
 .hero-design {
   position: absolute;
   top: 0;

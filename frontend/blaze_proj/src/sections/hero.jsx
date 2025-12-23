@@ -1,38 +1,31 @@
-import React from "react";
+
+
+import React from "react"; 
 import "./Hero.css";
 import ero from "../assets/hero-design.svg";
 
-function Hero() {
+function Hero({ scrollToSection, postsRef, departmentsRef }) {
   return (
     <section className="hero-container">
       <img src={ero} alt="image-icon" className="hero-design" />
-      {/* Blue Outline Frame */}
-      <div className="hero-frame">   
-
-        {/* Title */}
+      <div className="hero-frame">
         <h1 className="hero-title">CSE’s Internal<br/>News Hub</h1>
 
-        {/* Subtitle placeholder lines */}
-        <div className="hero-lines">
-          <div className="line"></div>
-          <div className="line"></div>
-          <div className="line"></div>
-          <div className="line"></div>
-          <div className="line short"></div>
-        </div>
-
-        {/* Buttons */}
+       <div>
+        <h1 className="hook"> Official Platform for CSE Newsletter and communication </h1>
+       </div>
         <div className="hero-buttons">
-          <button className="btn-primary">See Posts →</button>
-          <button className="btn-outline">See Departments</button>
+          <button className="btn-primary" onClick={() => scrollToSection(postsRef)}>
+            See Posts →
+          </button>
+          <button className="btn-outline" onClick={() => scrollToSection(departmentsRef)}>
+            See Departments
+          </button>
         </div>
-         
- </div>
-      
-
+      </div>
     </section>
-    
   );
 }
 
 export default Hero;
+
