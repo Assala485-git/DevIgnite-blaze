@@ -11,12 +11,12 @@ const COLORS = {
 };
 
 export default function DepartmentCard({ id, tag, user, description, title }) {
-  const isPresident = user.Role === "president";
+  const isPresident = user?.Role === "president";
 
   const navigate = useNavigate();
   const color = COLORS[tag] || COLORS.Default;
 
-  const [followed, setFollowed] = useState(user.followedDepartments.includes(id));
+  const [followed, setFollowed] = useState(user?.followedDepartments.includes(id));
 
   const goToDep = () => navigate(`/department/${id}`);
 
@@ -27,7 +27,7 @@ export default function DepartmentCard({ id, tag, user, description, title }) {
     setFollowed(true);
     } else{
       unfollowDepart(id);
-      setFollowed(true);
+      setFollowed(false);
     }
     
   };
@@ -77,7 +77,7 @@ export default function DepartmentCard({ id, tag, user, description, title }) {
         transition: "all 0.2s ease",
       }}
     >
-      {followed ? "Followed" : "Follow"}
+      {followed ? "Unfollow" : "Follow"}
     </button>
   </div>
 </div>

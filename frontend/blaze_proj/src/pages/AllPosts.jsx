@@ -2,11 +2,16 @@ import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FiCalendar, FiShare2 } from "react-icons/fi";
 import PostCard from "../components/PostCard";
-import { getAllPosts } from "../services/api";
+import { getAllPosts,deletePost } from "../services/api";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 export default function AllPosts() {
+  const handleDeletePost = async (id) => {
+  await deletePost(id);
+
+  setPosts((prev) => prev.filter((post) => post._id !== id));
+ };
   
   const navigate = useNavigate();
 
@@ -97,6 +102,7 @@ export default function AllPosts() {
             dep={post.department || null}
             role={role}
             image={post.image}
+            onDelete={handleDeletePost}
           />
         ))}
       </div>

@@ -8,7 +8,7 @@ export default function Topbar() {
 
   if (loading) return null;
 
-  const role = user?.Role || user?.role || "user";
+  const role = user?.Role  || "user";
   const isPresident = role === "president";
 
   return (
@@ -58,16 +58,17 @@ export default function Topbar() {
             setUser(null);
             navigate("/login");
           }}
-          style={{
-            background: "transparent",
-            border: "1px solid #3E424A",
-            borderRadius: "8px",
-            padding: "8px 14px",
-            color: "#ffffff",
-            cursor: "pointer",
-            fontSize: "13px",
-          }}
+          style={
+            {background: "transparent",
+            border: "1px solid #ff6b6b",
+            color: "#ff6b6b",
+            padding: "10px 22px",
+            borderRadius: "20px",
+            cursor: "pointer",}
+          }
         >
+          
+
           Logout
         </button>
       )}
