@@ -13,7 +13,7 @@ const { user, loading } = useAuth();
 if (loading) return null;
 
 const role = user?.Role; // president / manager / user
-console.log(user);
+console.log(role);
 const isPresident = role === "president";
 
   const buttonStyle = {

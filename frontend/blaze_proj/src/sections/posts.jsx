@@ -17,6 +17,8 @@ function Posts() {
  function handlePosts(){
   navigate("/posts");
 }
+
+
   return (
     <section className="posts-container">
       <div className="posts-frame">

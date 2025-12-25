@@ -3,11 +3,12 @@ import "./Navbar.css";
 import logo from "../assets/cse_logo.svg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import { logout } from "../services/auth";
 
 function Navbar() {  
 
   
-const { user, loading } = useAuth();
+const { user, loading, setUser } = useAuth();
 
 
   return (
@@ -17,7 +18,13 @@ const { user, loading } = useAuth();
           <img src={logo} alt="CSE Hub logo" className="logo" />
           <span className="brand">CSE <br /> Hub</span>
         </div>
-        {!user &&(
+        { user ? (<button onClick={async () => {
+                    await logout();
+                    setUser(null);
+                    navigate("/login");
+                  }} 
+                  className="logout-btn">Log out</button>
+                ):(
           <div className="navbar-right">
            <Link to="/login">
             <button className="login-btn">Log in </button>

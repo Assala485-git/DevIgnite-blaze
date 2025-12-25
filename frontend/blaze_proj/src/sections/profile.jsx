@@ -1,22 +1,20 @@
 import React from "react";
 import "./profile.css";
-import avatar from "../assets/profile.svg"; 
-import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/authContext";
+import { logout } from "../services/auth";
 
   
 
 const Profile = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, setUser } = useAuth();
   const navigate = useNavigate();
 
-  // While checking authentication
+
   if (loading) {
     return <p style={text}>Loading account...</p>;
   }
 
-  // If not authenticated
   if (!user) {
     return (
       <div style={container}>
@@ -58,12 +56,6 @@ const Profile = () => {
           />
         </div>
       </div>
-
-      {/* LOGOUT */}
-      <div className="logout-container">
-        <button className="logout-btn">Log out</button>
-      </div>
-
       {/* FOOTER */}
       <p className="profile-footer">© Copyright 2025 DevBlaze.</p>
     </div>
