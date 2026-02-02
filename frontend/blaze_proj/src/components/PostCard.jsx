@@ -79,7 +79,7 @@ export default function PostCard({
       </p>
       {image && <div>
         <img
-          src={`http://localhost:5000/images/${image}`}
+          src={`https://devignite-blaze-backend.onrender.com/images/${image}`}
           alt={title}
           style={{
             width: "100%",
