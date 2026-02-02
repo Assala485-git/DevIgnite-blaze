@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // change to your backend URL
+  baseURL: 'https://devignite-blaze-backend.onrender.com', // change to your backend URL
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
