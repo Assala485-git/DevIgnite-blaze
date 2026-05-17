@@ -27,13 +27,18 @@ export default function Login() {
     setLoading(true);
 
     try {
-      await signUp({ name,email, password });
+      console.log(name);
+      console.log(email);
+      console.log(password);
+      await signUp({ name , email, password });
 
       const res = await getMe();
+      console.log(res.data);
       setUser(res.data);
 
       navigate("/");
     } catch (err) {
+      console.log(err);
       setError("Invalid email or password");
     } finally {
       setLoading(false);
