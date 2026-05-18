@@ -1,5 +1,5 @@
 import React from "react";
-import "./Navbar.css";
+import "./navbar.css";
 import logo from "../assets/cse_logo.svg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";

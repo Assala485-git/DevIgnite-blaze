@@ -12,7 +12,7 @@ export default function Sidebar({ role = "user" }) {
       {/* TOP */}
       <div>
       <div className="sidebar-logo">
-  <Link to="/">
+      <Link to="/">
     <img src={logo} alt="CSE logo" />
   </Link>
 </div>
