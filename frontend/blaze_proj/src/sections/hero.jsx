@@ -1,7 +1,7 @@
 
 
 import React from "react"; 
-import "./Hero.css";
+import "./hero.css";
 import ero from "../assets/hero-design.svg";
 
 function Hero({ scrollToSection, postsRef, departmentsRef }) {
